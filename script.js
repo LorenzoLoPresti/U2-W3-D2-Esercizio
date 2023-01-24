@@ -18,38 +18,63 @@ console.log(p1.comapareAge(p2));
 
 // ESERCIZIO 2
 
+const fatherEl = document.getElementById("container");
+const btnForward = document.getElementById("btn-forward");
+const btnBackward = document.getElementById("btn-backward");
+let counter = 0;
+
 class PageContent {
   constructor(items, pageSize) {
     this.items = items;
     this.pageSize = pageSize;
   }
 
-  showContent(items, pageSize) {}
+  printItems() {
+    for (let i = 0; i < this.pageSize; i++) {
+      let newP = document.createElement("p");
+      newP.textContent = this.items[counter + i];
+      fatherEl.appendChild(newP);
+    }
+  }
 }
 
-const contentArray = new PageContent([1, 2, 3, 4, 5, 6, 7, 8, 9, 0], 10);
+const contentArray = new PageContent(
+  [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    22, 23, 24, 25, 26, 27,
+  ],
+  10
+);
 
-console.log(contentArray);
-console.log(contentArray.items[0]);
-// funzione per creare i contenuti nella pagina
-const padre = document.getElementById("container");
+contentArray.printItems(
+  [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    22, 23, 24, 25, 26, 27,
+  ],
+  10
+);
 
-// const contenuti = function () {
-//   let newP = document.createElement("p");
-//   newP.textContent = contentArray.items[0];
-//   padre.appendChild(newP);
-// };
-// contenuti();
-
-// mostrare il numero di contenuti determinato nella pagina
-
-const contenuti = function () {
-  for (let i = 0; i < 10; i++) {
-    let newP = document.createElement("p");
-    newP.textContent = contentArray.items[i];
-    padre.appendChild(newP);
+btnForward.onclick = function () {
+  if (counter > contentArray.items.length - contentArray.pageSize) {
+    btnForward.setAttribute("disabled", "");
+  } else {
+    btnBackward.removeAttribute("disabled", "");
+    console.log(counter);
+    fatherEl.innerHTML = "";
+    counter += contentArray.pageSize;
+    contentArray.printItems();
   }
 };
-contenuti();
-// creare un bottone che permetta di scorrere i contenuti
-// al cambio pagina i+10 e contatore +10
+
+btnBackward.onclick = function () {
+  if (counter <= 0) {
+    console.log(counter);
+    btnBackward.setAttribute("disabled", "");
+  } else {
+    btnForward.removeAttribute("disabled", "");
+    console.log("counter", counter);
+    fatherEl.innerHTML = "";
+    counter -= contentArray.pageSize;
+    contentArray.printItems();
+  }
+};
